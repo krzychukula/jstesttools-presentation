@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1024" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>impress.js | presentation tool based on the power of CSS3 transforms and transitions in modern browsers | by Bartek Szopka @bartaz</title>
+
+    <meta name="description" content="impress.js is a presentation tool based on the power of CSS3 transforms and transitions in modern browsers and inspired by the idea behind prezi.com." />
+    <meta name="author" content="Bartek Szopka" />
+
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic" rel="stylesheet" />
+
+
+    <link href="css/impress-demo.css" rel="stylesheet" />
+
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+</head>
+<body>
+
+<!--
+
+    That's the wrapper for your presentation steps. In this element all the impress.js magic happens.
+    It doesn't have to be a `<div>`. Only `id` is important here as that's how the script find it.
+
+    It's worth to notice the `impress-not-supported` class. This class means, that browser doesn't
+    support features required by impress.js, so you can apply some fallback styles in your CSS.
+    It's not necessary to add it manually on this element. If the script detects that browser is not
+    good enough it will add this class, but keeping it in HTML means that users without JavaScript
+    will also get fallback styles.
+
+    The class name on this element also depends on currently active presentation step. More details about
+    it can be found below, when `hint` element is being described.
+
+-->
+<div id="impress" class="impress-not-supported">
+
+    <div class="fallback-message">
+        <p>Your browser <b>doesn't support the features required</b> by impress.js, so you are presented with a simplified version of this presentation.</p>
+        <p>For the best experience please use the latest <b>Chrome</b>, <b>Safari</b> or <b>Firefox</b> browser. Upcoming version 10 of Internet Explorer <i>should</i> also handle it.</p>
+    </div>
+
+    <!--
+
+        Here is where interesting thing start to happen.
+
+        Each step of the presentation should be an element inside the `#impress` with a class name
+        of `step`. These step elements are positioned, rotated and scaled by impress.js, and
+        the 'camera' shows them on each step of the presentation.
+
+        Positioning information is passed through data attributes.
+
+        In the example below we only specify x and y position of the step element with `data-x="-1000"`
+        and `data-y="-1500` attributes. This means that **the center** of the element (yes, the center)
+        will be positioned in point x = -1000px and y = -1500px of the presentation 'canvas'.
+
+        It will not be rotated or scaled.
+
+    -->
+    <div id="start" class="step slide" data-x="-1000" data-y="-1500">
+        <q><strong>Test JavaScript</strong></q>
+        <ul>
+            <li>* Unit Testing to prove it is working</li>
+            <li>* Changes don't brake things</li>
+        </ul>
+        <footer class="footnote">Krzysztof Kula, <small>INTERIA.PL</small></footer>
+    </div>
+
+    <!--
+
+        The `id` attribute of the step element is used to identify it in the URL, but it's optional.
+        If it is not defined, it will get a default value of `step-N` where N is a number of slide.
+
+        So in the example below it'll be `step-2`.
+
+        The hash part of the url when this step is active will be `#/step-2`.
+
+        You can also use `#step-2` in a link, to point directly to this particular step.
+
+        Please note, that while `#/step-2` (with slash) would also work in a link it's not recommended.
+        Using classic `id`-based links like `#step-2` makes these links usable also in fallback mode.
+
+    -->
+    <div class="step slide" data-x="0" data-y="-1500">
+        <q>But script that works in Chrome <strong>can break:</strong> in others...</q>
+        <q><i>I've tested that website in all browser before release, so it should work.</i></q>
+        <q>* And you will test it in all browsers after <strong>every</strong> change?!</q>
+    </div>
+
+
+
+    <!--
+
+        This is an example of step element being scaled.
+
+        Again, we use a `data-` attribute, this time it's `data-scale="4"`, so it means that this
+        element will be 4 times larger than the others.
+        From presentation and transitions point of view it means, that it will have to be scaled
+        down (4 times) to make it back to it's correct size.
+
+    -->
+    <div id="title" class="step" data-x="0" data-y="0" data-scale="4">
+        <span class="try">There must be some way to</span>
+        <h1>automate it!<sup>*</sup></h1>
+        <span class="footnote"><sup>*</sup> on change, before commit, Continuous integration</span>
+    </div>
+
+    <div id="list" class="step slide" data-x="1000" data-y="-1500">
+        <q>JsTestDriver <a href="http://code.google.com/p/js-test-driver/" target="_blank">google code project</a></q>
+
+        <ol>
+            <li>Create project</li>
+            <li>Write production code *</li>
+            <li>Write test code</li>
+            <li>Create configuration file</li>
+            <li>Start Server</li>
+            <li>Assign browsers</li>
+            <li>Test!</li>
+        </ol>
+    </div>
+
+    <!--
+
+        This element introduces rotation.
+
+        Notation shouldn't be a surprise. We use `data-rotate="90"` attribute, meaning that this
+        element should be rotated by 90 degrees clockwise.
+
+    -->
+    <div id="production" class="step" data-x="850" data-y="3000" data-rotate="90" data-scale="5">
+<pre>
+myapp = {};
+myapp.Greeter = function() { };
+myapp.Greeter.prototype.greet = function(name) {
+  return "Hello " + name + "!";
+};
+</pre>
+    </div>
+
+    <div id="test" class="step" data-x="-1500" data-y="3000" data-rotate="90" data-scale="5">
+<pre>
+GreeterTest = TestCase("GreeterTest");
+
+GreeterTest.prototype.testGreet = function() {
+  var greeter = new myapp.Greeter();
+  assertEquals("Hello World!", greeter.greet("World"));
+};
+</pre>
+    </div>
+
+    <div id="big" class="step" data-x="3500" data-y="2100" data-rotate="180" data-scale="5">
+        <p>Time to tell JsTestDriver where code and tests are.</p>
+    </div>
+
+    <!--
+
+        And now it gets really exiting! We move into third dimension!
+
+        Along with `data-x` and `data-y`, you can define the position on third (Z) axis, with
+        `data-z`. In the example below we use `data-z="-3000"` meaning that element should be
+        positioned far away from us (by 3000px).
+
+    -->
+    <div id="project" class="step" data-x="2825" data-y="2325" data-z="-3000" data-rotate="300" data-scale="1">
+        <q>project structure</q>
+<pre>
+./
+    src
+        greeter.js
+    src-test
+        greeter-test.js
+    jsTestDriver.conf
+    JsTestDriver.jar
+</pre>
+
+    </div>
+
+     <div id="configuration" class="step" data-x="2825" data-y="2325" data-z="-6000" data-rotate="300" data-scale="1">
+        <q>jsTestDriver.conf</q>
+<pre>
+server: http://localhost:9876
+
+load:
+  - src/*.js
+  - src-test/*.js
+</pre>
+        <footer class="footnote">* YAML</footer>
+    </div>
+
+    <div id="ing" class="step" data-x="3500" data-y="-850" data-rotate="270" data-scale="6">
+        <pre>java -jar JsTestDriver.jar --port 9876</pre>
+        <img src="img/capture.png" alt="click capture this browser" />
+    </div>
+
+    <div id="imagination" class="step" data-x="7700" data-y="-300" data-scale="6">
+        <img src="img/capturing.png" alt="click capture this browser" />
+    </div>
+
+    <div id="source" class="step" data-x="6300" data-y="2800" data-rotate="20" data-scale="4">
+        <pre>java -jar JsTestDriver.jar --tests "all"</pre>
+<pre class="console">
+Running all tests
+..
+Total 2 tests (Passed: 2; Fails: 0; Errors: 0) (7,00 ms)
+  Chrome 17.0.963.56 Linux: Run 2 tests (Passed: 2; Fails: 0; Errors 0) (7,00 ms)
+    runs.should execute a runs block passed (4,00 ms)
+      [LOG] JsTestDriver Hello World!
+    runs.should execute a runs block passed (3,00 ms)
+      [LOG] JsTestDriver Hello World!
+</pre>
+    </div>
+
+    <div id="one-more-thing" class="step" data-x="6000" data-y="4000" data-scale="2">
+        <p>Total 2 tests (Passed: 2; Fails: 0; Errors: 0) (7,00 ms)</p>
+    </div>
+
+    <!--
+
+        And the last one shows full power and flexibility of impress.js.
+
+        You can not only position element in 3D, but also rotate it around any axis.
+        So this one here will get rotated by -40 degrees (40 degrees anticlockwise) around X axis and
+        10 degrees (clockwise) around Y axis.
+
+        You can of course rotate it around Z axis with `data-rotate-z` - it has exactly the same effect
+        as `data-rotate` (these two are basically aliases).
+
+    -->
+    <div id="its-in-3d" class="step" data-x="6200" data-y="4300" data-z="-3000" data-rotate-x="-40" data-rotate-y="10" data-scale="2">
+        <q>Capturing every browser for testing is <b>cumbersome</b></q>
+        <p>Fortunately server can autocapture browsers! *</p>
+        <pre>java ... --browser firefoxpath,chromepath</pre>
+
+        <footer class="footnote">* It will run them all...</footer>
+    </div>
+
+    <div id="ci" class="step slide" data-x="3000" data-y="-1500">
+        <q><strong>CI Friendly</strong></q>
+        <ul>
+            <li>* Run tests on remote server *</li>
+            <li>* Run from Jenkins</li>
+        </ul>
+        <footer class="footnote">7 browser bill probably eat all memory in your PC</small></footer>
+    </div>
+
+    <div id="adapters" class="step slide" data-x="3800" data-y="-1500">
+        <q><strong>Adapters</strong></q>
+        <small>Like another testing library? </small>
+        <ul>
+            <li>* qUnit</li>
+            <li>* Jasmine</li>
+            <li>* ...</li>
+        </ul>
+        <q>They just map js-test-driver api to your api.</q>
+    </div>
+
+    <div id="jasmine" class="step" data-x="3500" data-y="4500" data-rotate="90" data-scale="5">
+        <q><a href="http://tryjasmine.com/" target="_blank"><img src="img/jasmine_logo.png" alt="jasmine" /></a></q>
+        <p>BDD for JavaScript</p>
+<pre class="small">
+describe("Jasmine", function() {
+    it("makes testing awesome!", function() {
+        expect(yourCode).toBeLotsBetter();
+    });
+});
+</pre>
+<footer class="footnote">Yes, there is adapter for Jasmine :)</footer>
+    </div>
+
+    <div id="bdd" class="step" data-x="3525" data-y="4525" data-z="-3000" data-rotate="300" data-scale="1">
+        <p>BDD - besides funky syntax :)</p>
+        <ol>
+            <li>Unites acceptance testing and unit testing</li>
+            <li>Outside–in - starts from GUI</li>
+            <li>Test are written with client (unites QA, clients, developers)</li>
+            <li>Agile, YAGNI</li>
+            <li>More, but I just like this syntax ;)</li>
+        </ol>
+    </div>
+
+    <div id="async" class="step" data-x="3525" data-y="4525" data-z="-6000" data-rotate="300" data-scale="1">
+        <p>What tigers like the most</p>
+<pre class="small">
+describe('How about async?', function() {
+  it('should calc asynchronously', function () {
+    var spreadsheet = new Spreadsheet();
+    spreadsheet.asynchronouslyCalculate();
+
+    waitsFor(function() {
+      return spreadsheet.calculationIsComplete();
+    }, "Spreadsheet calculation never completed", 10000);
+
+    runs(function () {
+      expect(spreadsheet.total).toEqual(123456);
+    });
+});});
+</pre>
+    </div>
+
+    <div id="runs" class="step" data-x="3525" data-y="4525" data-z="-9000" data-rotate="300" data-scale="1">
+        <p>Can be used in:</p>
+        <ol>
+            <li>Browser (like qUnit)</li>
+            <li>Node.js</li>
+            <li>JsTestDriver</li>
+            <li>Rhino</li>
+            <li>many others</li>
+        </ol>
+    </div>
+
+    <div id="alternatives" class="step slide" data-x="4600" data-y="-1500">
+        <q>Alternatives</q>
+        <ul>
+            <li>Buster.JS</li>
+            <li>Mocha</li>
+            <li>Fantom.JS</li>
+            <li>JsDOM, Zombie</li>
+            <li>Grunt, node-build-script</li>
+        </ul>
+        <q>They just map js-test-driver api to your api.</q>
+    </div>
+
+    <div id="buster" class="step slide" data-x="5600" data-y="-1500">
+        <p class="buster-logo"><a href="http://busterjs.org/" target="_blank"><img src="img/buster-logo.png" /></a></p>
+        <q>Node.js alternative to JsTestDriver</q>
+        <ul>
+            <li>Conf is in JS file</li>
+            <li>BDD and Unit syntax</li>
+            <li>Static html tests</li>
+            <li>Many reporters eg. xml, dots</li>
+            <li>Not tested, but looks better than JTD</li>
+        </ul>
+    </div>
+
+    <div id="mocha" class="step slide" data-x="5600" data-y="-900">
+        <q><a href="media.github.com/mocha/" target="_blank">Mocha</a></q>
+        <ul>
+            <li>UnitTest library</li>
+            <li>available via npm</li>
+            <li>BDD syntax</li>
+            <li>Many reporters</li>
+        </ul>
+    </div>
+
+    <div id="fantom" class="step slide" data-x="5600" data-y="-300">
+        <p><a href="http://www.phantomjs.org/" target="_blank"><img src="img/fantom.png" /></a></p>
+        <ul>
+            <li>Headless WebKi</li>
+            <li>DOM handling, CSS selector, JSON, Canvas, and SVG.</li>
+            <li>Think of it like command line browser :)</li>
+            <li>I want't able to install it :(</li>
+        </ul>
+    </div>
+
+    <div id="jsdom" class="step slide" data-x="5600" data-y="300">
+        <p><strong>jsdom, Zombie</strong></p>
+        <ul>
+            <li>Node.js libraries simulating window and DOM</li>
+            <li>Can used for testing</li>
+            <li>Easy install via npm</li>
+            <li>Can have yet another bugs than browsers</li>
+            <li>creates it's own window, can get external sites</li>
+        </ul>
+    </div>
+
+    <div id="build" class="step slide" data-x="8500" data-y="1500" data-scale="2">
+        <p><strong>Grunt, node-build-script</strong></p>
+        <ul>
+            <li>Linting, testing</li>
+            <li>Run on localhost (dev, prod versions)</li>
+            <li>Easy install via npm, git clone</li>
+            <li>Rather beta, but can bu used</li>
+            <li>ant-build-script from h5bp is more stable</li>
+        </ul>
+    </div>
+
+    <div id="thank" class="step slide" data-x="8500" data-y="4500" data-scale="2">
+        <p><strong>Thanks!</strong></p>
+        <ul>
+            <li>This presentation was done in Inpress.JS</li>
+            <li>But mostly based on CSS of @bartaz :(</li>
+        </ul>
+        <p>Hope you will remember:</p>
+         <ul>
+            <li>JsTestDriver can run JS test in many browsers at once</li>
+            <li>BDD and Jasmine are worth to try</li>
+            <li>Node.js and NPM are AWESOME! :)</li>
+        </ul>
+    </div>
+
+    <!--
+
+        So to make a summary of all the possible attributes used to position presentation steps, we have:
+
+        * `data-x`, `data-y`, `data-z` -- they define the position of **the center** of step element on
+            the canvas in pixels; their default value is 0;
+        * `data-rotate-x`, `data-rotate-y`, 'data-rotate-z`, `data-rotate` -- they define the rotation of
+            the element around given axis in degrees; their default value is 0; `data-rotate` and `data-rotate-z`
+            are exactly the same;
+        * `data-scale` -- defines the scale of step element; default value is 1
+
+    -->
+    <div id="overview" class="step" data-x="3200" data-y="1500" data-scale="18">
+    </div>
+
+</div>
+
+
+<div class="hint">
+    <p>Use a spacebar or arrow keys to navigate</p>
+</div>
+<script>
+if ("ontouchstart" in document.documentElement) {
+    document.querySelector(".hint").innerHTML = "<p>Tap on the left or right to navigate</p>";
+}
+</script>
+
+<script src="js/impress.js"></script>
+<script>impress();</script>
+
+
+</body>
+</html>
+
